@@ -1,0 +1,30 @@
+﻿<link rel="import" href="resolveDoLogicIssue.html" />
+<link rel="import" href="sharedProperties.html" />
+<script>
+
+    (function () {
+
+        registerElement = function (elemName) {
+
+            var proto = Object.create(HTMLElement.prototype);
+
+            proto.attachedCallback = function () {
+
+                sharedProperties(this);
+
+                DoLogic(this);
+
+                this.DoLogic(this);
+            }
+
+            // create watcher on attribute => invoke doLogic again
+
+            document.registerElement(elemName,
+           {
+               prototype: proto
+           });
+
+            return proto;
+        }
+    })();
+</script>

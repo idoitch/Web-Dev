@@ -1,0 +1,16 @@
+﻿<script>
+    (function () {
+        getAffectedBy = function (obj) {
+            var val = obj.getAttribute("affected-by");
+            val = val != null ? val : "";
+            switch (val.toLowerCase()) {
+                case "parent":
+                    return obj.api.relatives.parent;
+                case "child":
+                    return obj.api.relatives.child;
+                case "self":
+                    return obj;
+            }
+        }
+    })();
+</script>

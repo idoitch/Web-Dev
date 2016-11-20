@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+
+    <script>
+        function getFromUrl(key) {
+            debugger
+            var queryString = location.search.split("?")[1];
+
+            var array = queryString.split("&");
+
+            for (var i = 0; i < array.length; i++) {
+                var data = array[i];
+                var subArray = data.split("=");
+                if (subArray[0] == key) {
+                    return subArray[1];
+                }
+            }
+        }
+        debugger
+        var inputFromUrl = getFromUrl("input");
+
+    </script>
+    <script src="../provider/checkArrayEqualityProvider.js">
+        function input() {
+            debugger
+            return JSON.parse(inputFromUrl);
+        }
+        function output(res) {
+            console.log(res);
+            //Set out put in url or return result as http response
+        }
+    </script>
+
+
+
+</head>
+<body>
+
+
+</body>
+</html>

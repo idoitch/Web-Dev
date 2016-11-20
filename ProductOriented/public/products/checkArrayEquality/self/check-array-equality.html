@@ -1,0 +1,29 @@
+﻿<link rel="import" href="../../../webComponent/registerElement.html" />
+@
+<script>
+    (function () {
+
+        registerElement("check-array-equality")
+
+            .logic = function (setDone, getInput, setOutput) {
+                 
+                 var input = getInput();
+                 input = eval(input);
+                 var equal = true;
+
+                 for (var i = 0; i < input.length - 1; i++) {
+                     if (input[i] != input[i + 1]) {
+                         equal = false;
+                     }
+                 }
+
+                 setOutput(function () {
+                     return false;
+                 });
+
+                 setDone();
+             };
+    })();
+</script>
+@
+<check-array-equality affected-by="self" input="[1,2,3]"></check-array-equality>

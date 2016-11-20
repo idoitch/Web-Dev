@@ -1,0 +1,65 @@
+﻿<link rel="import" href="notifyWhenObjectApiReady.html" />
+<script>
+    (function () {
+        DoLogic = function (proto) {
+
+            proto.DoLogic = function () {
+
+                proto.api.data.input = proto.getAttribute("input");
+
+                function caseElementAffectedBySelf() {
+                    return proto.api.affected.affectedBySelf;
+                }
+                function caseElementNeedInputFromAnotherElement() {
+                    return proto.api.inputFrom.needInput;
+                }
+                function caseElementNotNeedInputFromAnotherElement() {
+                    return !caseElementNeedInputFromAnotherElement();
+                }
+                function caseElementAffectedByAnotherElement() {
+                    return !caseElementAffectedBySelf();
+                }
+
+                function invokeLogic() {
+                    proto.logic(setDone, getInput, setOutput);
+                }
+
+                function setDone() {
+                    proto.api.events.setDone();
+                }
+
+                function getInput() {
+                    return proto.api.data.input;
+                }
+
+                function setOutput(callback) {
+                    proto.api.data.output = callback();
+                    proto.setAttribute("output",JSON.stringify( proto.api.data.output));
+                }
+
+                if (caseElementAffectedBySelf()) {
+                    if (caseElementNotNeedInputFromAnotherElement()) {
+                        invokeLogic();
+                    }
+                    else if (caseElementNeedInputFromAnotherElement()) {
+                        notifyWhenObjectApiReady(proto.api.inputFrom.inputFromElem, function (api) {
+                            api.events.registerDoneEvent(function () {
+                                proto.api.data.input = api.data.output;
+                                invokeLogic();
+                            });
+                        });
+                    }
+                }
+
+                else if (caseElementAffectedByAnotherElement()) {
+                    notifyWhenObjectApiReady(proto.api.affected.affectedByElem, function (api) {
+                        api.events.registerDoneEvent(function () {
+                            proto.api.data.input = api.data.output;
+                            invokeLogic();
+                        });
+                    });
+                }
+            }
+        }
+    })();
+</script>

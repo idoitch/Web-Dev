@@ -1,0 +1,20 @@
+﻿<script>
+    (function () {
+        notifyWhenObjectApiReady = function (obj, callback) {
+
+            var counter = 0;
+            if (!obj)
+                return;
+            var id = setInterval(function () {
+                counter++;
+                if (counter > 10) {
+                    clearInterval(id);
+                }
+                if (obj.api) {
+                    callback(obj.api);
+                    clearInterval(id);
+                }
+            }, 10);
+        }
+    })();
+</script>

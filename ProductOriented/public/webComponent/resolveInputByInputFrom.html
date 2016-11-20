@@ -1,0 +1,10 @@
+﻿<script>
+    (function () {
+        getInputFrom = function (obj) {
+            var val = obj.getAttribute("input-from");
+            val = val != null ? val : "";
+            if (val)
+                return document.querySelectorAll("."+val);
+        }
+    })();
+</script>

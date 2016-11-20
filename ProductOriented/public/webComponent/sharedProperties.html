@@ -1,0 +1,53 @@
+﻿<link rel="import" href="resolveLogicByAffectedBy.html" />
+<link rel="import" href="resolveInputByInputFrom.html" />
+<script>
+
+    (function () {
+        sharedProperties = function (obj) {
+
+            obj.api = {
+                name: obj.tagName,
+                relatives: {
+                    child: obj.children.length ? obj.children[0] : null,
+                    parent: obj.parentElement,
+                },
+                data: {
+                    input: null,
+                    output: null,
+                },
+                events: {
+                    listeners: [],
+                    done: false,
+                    setDone: function () {
+                        this.done = true;
+                        this.notifyListeners();
+                    },
+                    registerDoneEvent: function (listener) {
+                        if (this.done)
+                            listener();
+                        this.listeners.push(listener);
+                    },
+                    notifyListeners: function () {
+                        for (var i = 0; i < this.listeners.length; i++) {
+                            this.listeners[i]();
+                        }
+                    }
+                },
+            };
+
+            var affectedByElem = getAffectedBy(obj);
+
+            obj.api.affected = {
+                affectedByElem: affectedByElem,
+                affectedBySelf: affectedByElem == obj,
+            };
+
+            var inputFromElem = getInputFrom(obj);
+            obj.api.inputFrom = {
+                inputFromElem: inputFromElem,
+                needInput: inputFromElem != null
+            };
+        }
+    })();
+
+</script>
